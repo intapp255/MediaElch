@@ -485,10 +485,17 @@ QVector<Movie*> MovieFileSearcher::loadAndStoreMoviesContents(QVector<MovieFileS
                     QString file = files.takeLast();
                     QString stackedBase = helper::stackedBaseName(file);
                     stacked.insert(stackedBase, QStringList() << file);
-                    for (const QString& f : files) {
+                    int file_index = 0;
+
+                    while(file_index < files.count()) {
+                        const QString& f = files[file_index];
+
                         if (helper::stackedBaseName(f) == stackedBase) {
                             stacked[stackedBase].append(f);
-                            files.removeOne(f);
+                            files.removeAt(file_index);
+                        }
+                        else {
+                            file_index++;
                         }
                     }
                 }
